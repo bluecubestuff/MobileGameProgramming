@@ -107,16 +107,20 @@ public class Ball implements EntityBase, Collidable{
 
     @Override
     public void Update(float _dt) {
+        if (freeze){
+            Log.d("freeze", "true");
+        }
+        else{
+            Log.d("freeze", "false");
+        }
         //update the ball
         if (!freeze) {
-            Vector3 gravity = new Vector3(0, -10, 0);
+            Vector3 gravity = new Vector3(0, -50, 0);
             pos.x += vel.x * _dt;
             pos.y += vel.y * _dt;
             pos.z += vel.z * _dt;
             vel.y -= gravity.y * _dt;
             scale.x = scale.y = 1.f / (float)sqrt(pos.z);
-            Log.d("pos.z", Float.toString(vel.z));
-            //vel.z += gravity.z * _dt;
         }
     }
 

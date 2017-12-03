@@ -16,7 +16,8 @@ public class SampleGame
 
     private Ball currBall = null;
     private Vector3 force = new Vector3(1,1,1);
-    private float worldX, worldY;
+    private float worldX, worldY, screenX, screenY;
+    private Vector3 press = new Vector3(0,0,0);
 
     private SampleGame()
     {
@@ -30,8 +31,8 @@ public class SampleGame
 
         worldX = 100.f;
         worldY = worldX * (_view.getHeight()/_view.getWidth());
-
-        currBall = Ball.Create();
+        screenX = _view.getWidth();
+        screenY = _view.getHeight();
     }
 
     public void Update(float _deltaTime)
@@ -60,6 +61,8 @@ public class SampleGame
         if(TouchManager.Instance.isDown() && !isPressed)
         {   //check if mouse down spawn a ball
             currBall =  Ball.Create();
+            press.x = TouchManager.Instance.GetPosX();
+            press.y = TouchManager.Instance.GetPosY();
             isPressed = true;
         }
 
@@ -67,8 +70,10 @@ public class SampleGame
         {   //if holding down on screen
             if(currBall != null) {
                 //set the force base on dist  from finger to ball
-                force =  new Vector3(TouchManager.Instance.GetPosX() - currBall.GetPosX(),
-                        TouchManager.Instance.GetPosY() - currBall.GetPosY(), 1);
+                force =  new Vector3(TouchManager.Instance.GetPosX() - press.x,
+                        TouchManager.Instance.GetPosY() - press.y, 1);
+                force.x /= (screenX/worldX);
+                force.y /= (screenY/worldY);
             }
         }
         else
