@@ -13,7 +13,6 @@ public class SampleGame
     private boolean isPressed = false;
 
     private float timer = 0.0f;
-    private float worldX, worldY;
     private Ball currBall;
 
     private SampleGame()
@@ -26,9 +25,6 @@ public class SampleGame
         EntityManager.Instance.Init(_view);
         SampleBackground.Create();
 
-        worldX = 100.f;
-        worldY = worldX * (_view.getHeight()/_view.getWidth());
-
         currBall = Ball.Create();
     }
 
@@ -39,7 +35,7 @@ public class SampleGame
         //TODO: delete the ball when it shld be gone
         //when user throw
         if (true){
-            Vector3 force = new Vector3(0, -10 , 5);
+            Vector3 force = new Vector3(0, -100, 0);
             currBall.Throw(force);
             currBall.unFreeze();
         }
@@ -83,7 +79,5 @@ public class SampleGame
     {
         EntityManager.Instance.Render(_canvas);
     }
-    public float getWorldX(){return worldX;}
-    public float getWorldY(){return worldY;}
 }
 
