@@ -13,8 +13,11 @@ public class SampleGame
     private boolean isPressed = false;
 
     private float timer = 0.0f;
+
     private Ball currBall = null;
     private Vector3 force = new Vector3(1,1,1);
+    private float worldX, worldY;
+
     private SampleGame()
     {
 
@@ -25,7 +28,10 @@ public class SampleGame
         EntityManager.Instance.Init(_view);
         SampleBackground.Create();
 
-       // currBall = Ball.Create();
+        worldX = 100.f;
+        worldY = worldX * (_view.getHeight()/_view.getWidth());
+
+        currBall = Ball.Create();
     }
 
     public void Update(float _deltaTime)
@@ -36,7 +42,7 @@ public class SampleGame
         //when user throw
         /*
         if (true){
-            Vector3 force = new Vector3(0, -100, 0);
+            Vector3 force = new Vector3(0, -10 , 5);
             currBall.Throw(force);
             currBall.unFreeze();
         }
@@ -83,5 +89,7 @@ public class SampleGame
     {
         EntityManager.Instance.Render(_canvas);
     }
+    public float getWorldX(){return worldX;}
+    public float getWorldY(){return worldY;}
 }
 

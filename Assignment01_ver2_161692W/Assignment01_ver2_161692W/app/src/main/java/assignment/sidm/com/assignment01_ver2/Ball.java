@@ -3,6 +3,7 @@ package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.SurfaceView;
@@ -76,7 +77,7 @@ public class Ball implements EntityBase, Collidable{
     public void Init(SurfaceView _view) {
         isDone = false;
         freeze = true;
-        pos = new Vector3(_view.getWidth() / 2,_view.getHeight() /2,1);
+        pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
         vel = new Vector3(0,0,0);
 
         //randomly decides what kind of ball should it be
@@ -103,20 +104,26 @@ public class Ball implements EntityBase, Collidable{
     @Override
     public void Update(float _dt) {
         //update the ball
-        Vector3 gravity = new Vector3(0, -100, 100);
+        Vector3 gravity = new Vector3(0, -10, 10);
         if(!freeze) {
-            pos = pos.Add(vel.multiply_scalar(_dt));
-            vel = vel.Subtract(gravity.multiply_scalar(_dt));
-       }
+        pos = pos.Add(vel.multiply_scalar(_dt));
+        vel = vel.Subtract(gravity.multiply_scalar(_dt));
+        }
+
+
     }
 
     @Override
     public void Render(Canvas _canvas) {
         //convert from 3D space into 2D
         float xPos, yPos;
-        xPos = pos.x / pos.z;
-        yPos = pos.y / pos.z;
-        _canvas.drawBitmap(bmp, xPos - bmp.getWidth() * 0.5f, yPos - bmp.getHeight() * 0.5f, null);
+        Vector3 screenPos = CameraSpace(_canvas);
+        xPos = screenPos.x;
+        yPos = screenPos.y;
+        Matrix mtx = new Matrix();
+        mtx.setTranslate((float)(xPos - bmp.getWidth() * 0.5), (float)(yPos - bmp.getHeight() * 0.5));
+        mtx.postScale(pos.z, pos.z);
+        _canvas.drawBitmap(bmp, mtx, null);
     }
 
     public static Ball Create(){
@@ -131,5 +138,12 @@ public class Ball implements EntityBase, Collidable{
 
     public boolean getFreeze(){
         return freeze;
+    }
+
+    public Vector3 CameraSpace(Canvas _canvas){
+        float yRatio = _canvas.getHeight() / SampleGame.Instance.getWorldY();
+        float xRatio = _canvas.getWidth() / SampleGame.Instance.getWorldX();
+        Vector3 camPos = new Vector3(pos.x * xRatio, pos.y * yRatio, 0);
+        return camPos;
     }
 }
