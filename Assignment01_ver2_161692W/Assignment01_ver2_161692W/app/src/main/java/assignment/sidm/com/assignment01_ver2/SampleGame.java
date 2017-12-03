@@ -38,8 +38,8 @@ public class SampleGame
         timer += _deltaTime;
         //TODO: delete the ball when it shld be gone
         //when user throw
-        if (true){
-            Vector3 force = new Vector3(0, -10 , 5);
+        if (currBall.getFreeze()){
+            Vector3 force = new Vector3(0, -10 , 10);
             currBall.Throw(force);
             currBall.unFreeze();
         }
@@ -47,7 +47,7 @@ public class SampleGame
             timer += _deltaTime;
         }
 
-        if (timer >= 2.f){
+        if (timer >= 10.f){
             currBall = Ball.Create();
             timer = 0;
         }
