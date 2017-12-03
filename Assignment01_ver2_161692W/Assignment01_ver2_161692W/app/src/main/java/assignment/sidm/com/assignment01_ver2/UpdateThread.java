@@ -62,7 +62,7 @@ public class UpdateThread extends Thread
                 //synchronized is something like critical section
                 synchronized (holder)
                 {   //only one thread will draw
-                    canvas.drawColor(Color.BLACK);
+                    canvas.drawColor(Color.RED);
 
                     //render other garbage here
                     SampleGame.Instance.Render(canvas);

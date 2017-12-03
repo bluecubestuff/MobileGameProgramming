@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Assignment01_ver2_161692W.iml" filepath="$PROJECT_DIR$/Assignment01_ver2_161692W.iml" />
+      <module fileurl="file://C:\Users\Steven\Documents\GitHub\MobileGameProgramming\Assignment01_ver2_161692W\Assignment01_ver2_161692W\Assignment01_ver2_161692W.iml" filepath="C:\Users\Steven\Documents\GitHub\MobileGameProgramming\Assignment01_ver2_161692W\Assignment01_ver2_161692W\Assignment01_ver2_161692W.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Steven\Documents\GitHub\MobileGameProgramming\Assignment01_ver2_161692W\Assignment01_ver2_161692W\app\app.iml" filepath="C:\Users\Steven\Documents\GitHub\MobileGameProgramming\Assignment01_ver2_161692W\Assignment01_ver2_161692W\app\app.iml" />
     </modules>
   </component>
 </project>
