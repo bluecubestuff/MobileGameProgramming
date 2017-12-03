@@ -74,6 +74,7 @@ public class SampleGame
                         TouchManager.Instance.GetPosY() - press.y, 1);
                 force.x /= (screenX/worldX);
                 force.y /= (screenY/worldY);
+                force.z = 5;
             }
         }
         else
@@ -83,6 +84,7 @@ public class SampleGame
                 isPressed = false;
                 currBall.Throw(force);
                 currBall.unFreeze();
+                currBall = null;
             }
         }
         //end of da throw
