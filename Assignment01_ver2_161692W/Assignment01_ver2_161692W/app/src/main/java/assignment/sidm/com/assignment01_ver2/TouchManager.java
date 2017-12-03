@@ -1,6 +1,5 @@
 package assignment.sidm.com.assignment01_ver2;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
 public class TouchManager {
@@ -51,15 +50,12 @@ public class TouchManager {
        {
            case MotionEvent.ACTION_DOWN:
                status = TouchState.DOWN;
-               Log.d("DOWN","MotionEvent.ACTION_DOWN");
                break;
            case MotionEvent.ACTION_MOVE:
                status = TouchState.MOVE;
-               Log.d("MOVE","MotionEvent.ACTION_MOVE");
                break;
            case MotionEvent.ACTION_UP:
                status = TouchState.UP;
-               Log.d("UP","MotionEvent.ACTION_UP");
                break;
        }
     }

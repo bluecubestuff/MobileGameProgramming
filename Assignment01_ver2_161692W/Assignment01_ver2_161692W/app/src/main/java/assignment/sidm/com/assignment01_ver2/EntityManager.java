@@ -41,7 +41,6 @@ public class EntityManager
         removeList.clear();
 
         //collision here
-        /*
         for(int i = 0;i < enetityList.size();++i)
         {
             EntityBase currEntity = enetityList.get(i);
@@ -72,7 +71,7 @@ public class EntityManager
             {
                 removeList.add(currEntity);
             }
-        }*/
+        }
 
 
     }

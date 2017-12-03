@@ -12,64 +12,52 @@ public class SampleEntity implements EntityBase, Collidable
 
     private Bitmap bmp = null;
     private boolean isDone = false;
-    private boolean isMove = false;
 
     private float xPos, yPos, xDir, yDir, lifeTime;
-    private Vector3 pos,dir;
 
     @Override
     public boolean IsDone() {
         return isDone;
     }
 
-    public boolean IsMove() {return isMove;}
-
     @Override
     public void SetIsDone(boolean _isDone) {
         isDone = _isDone;
     }
 
-    public void SetIsMove(boolean _isMove) {isMove = _isMove;}
-
     @Override
     public void Init(SurfaceView _view) {
 
-        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
-         lifeTime = 100.0f;
-        //Random randGen = new Random();
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin);
+         lifeTime = 5.0f;
+        Random randGen = new Random();
 
-        //xPos = randGen.nextFloat() * _view.getWidth();
-        //yPos = randGen.nextFloat() * _view.getHeight();
+        xPos = randGen.nextFloat() * _view.getWidth();
+        yPos = randGen.nextFloat() * _view.getHeight();
 
-        //xDir = randGen.nextFloat() * 100.0f - 50.f;
-        //yDir = randGen.nextFloat() * 100.0f - 50.f;
-
-        pos = new Vector3(TouchManager.Instance.GetPosX(),TouchManager.Instance.GetPosY(), 0);
-        dir = new Vector3(1.f,1.f,1.f);
-
+        xDir = randGen.nextFloat() * 100.0f - 50.f;
+        yDir = randGen.nextFloat() * 100.0f - 50.f;
     }
 
     @Override
     public void Update(float _dt) {
         lifeTime -= _dt;
 
-       if(lifeTime <= 0.f)
+        if(lifeTime <= 0.f)
            SetIsDone(true);
 
-        if(isMove)
+        xPos += xDir * _dt;
+        yPos += yDir * _dt;
+
+        if(TouchManager.Instance.isDown())
         {
-            pos.x +=  dir.x * _dt;
-            pos.y += dir.y * _dt;
+            //collision stuff here
         }
-
-       // xPos += xDir * _dt;
-       // yPos += yDir * _dt;
-
     }
 
     @Override
     public void Render(Canvas _canvas) {
-        _canvas.drawBitmap(bmp, pos.x - bmp.getWidth() * 0.5f, pos.y - bmp.getHeight() * 0.5f, null);
+        _canvas.drawBitmap(bmp, xPos - bmp.getWidth() * 0.5f, yPos - bmp.getHeight() * 0.5f, null);
     }
 
     //so anyone can create sampleEntity
@@ -79,12 +67,6 @@ public class SampleEntity implements EntityBase, Collidable
         EntityManager.Instance.AddEntity(result);
         return result;
     }
-
-    public Vector3 GetPos() { return pos;}
-    public void SetPos(final Vector3 _pos) { pos =_pos;}
-
-    public Vector3 GetDir() { return dir;}
-    public void SetDir(final Vector3 _dir) { dir =_dir;}
 
     @Override
     public String GetType() {
