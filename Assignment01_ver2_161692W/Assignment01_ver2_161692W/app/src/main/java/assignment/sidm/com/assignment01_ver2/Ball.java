@@ -10,6 +10,8 @@ import android.view.SurfaceView;
 
 import java.util.Random;
 
+import static java.lang.Math.sqrt;
+
 /**
  * Created by Buttception on 3/12/2017.
  */
@@ -17,6 +19,7 @@ import java.util.Random;
 public class Ball implements EntityBase, Collidable{
     private Vector3 pos;
     private Vector3 vel;
+    private Vector3 scale;
     private boolean isDone;
     private boolean freeze;
     private TYPE type;
@@ -52,7 +55,7 @@ public class Ball implements EntityBase, Collidable{
         //Vector3 x = new Vector3(force.x, 0, 0);
         //Vector3 y = new Vector3(0, force.y, 0);
         //vel.Set(force.x, force.y, x.Cross(y).Length());
-        vel.Set(force.x, force.y,0);
+        vel.Set(force.x, force.y,force.z);
     }
 
     enum TYPE {
@@ -79,6 +82,7 @@ public class Ball implements EntityBase, Collidable{
         freeze = true;
         pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
         vel = new Vector3(0,0,0);
+        scale = new Vector3(1, 1,1);
 
         //randomly decides what kind of ball should it be
         Random randGen = new Random();
@@ -89,28 +93,31 @@ public class Ball implements EntityBase, Collidable{
         }
         else if (chance <= .5){
             type = TYPE.PLASTIC;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.start);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else if (chance <= .75){
             type = TYPE.GLASS;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.start);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else{
             type = TYPE.METAL;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.start);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
     }
 
     @Override
     public void Update(float _dt) {
         //update the ball
-        Vector3 gravity = new Vector3(0, -10, 10);
-        if(!freeze) {
-        pos = pos.Add(vel.multiply_scalar(_dt));
-        vel = vel.Subtract(gravity.multiply_scalar(_dt));
+        if (!freeze) {
+            Vector3 gravity = new Vector3(0, -10, 0);
+            pos.x += vel.x * _dt;
+            pos.y += vel.y * _dt;
+            pos.z += vel.z * _dt;
+            vel.y -= gravity.y * _dt;
+            scale.x = scale.y = 1.f / (float)sqrt(pos.z);
+            Log.d("pos.z", Float.toString(vel.z));
+            //vel.z += gravity.z * _dt;
         }
-
-
     }
 
     @Override
@@ -121,8 +128,12 @@ public class Ball implements EntityBase, Collidable{
         xPos = screenPos.x;
         yPos = screenPos.y;
         Matrix mtx = new Matrix();
-        mtx.setTranslate((float)(xPos - bmp.getWidth() * 0.5), (float)(yPos - bmp.getHeight() * 0.5));
-        mtx.postScale(pos.z, pos.z);
+        mtx.setScale(scale.x, scale.y);
+        mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
+
+        //mtx.postTranslate((float)(scale.x * bmp.getWidth() * 0.5), (float)(scale.y * bmp.getHeight() * 0.5));
+
+
         _canvas.drawBitmap(bmp, mtx, null);
     }
 
