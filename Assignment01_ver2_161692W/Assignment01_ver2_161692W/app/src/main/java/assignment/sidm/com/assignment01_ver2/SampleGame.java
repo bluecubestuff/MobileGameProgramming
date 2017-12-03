@@ -9,6 +9,8 @@ import android.view.SurfaceView;
 public class SampleGame
 {
     public final static SampleGame Instance = new SampleGame();
+    private  SampleEntity currEntity = null;
+    private boolean isPressed = false;
 
     private float timer = 0.0f;
     private Ball currBall;
@@ -28,6 +30,8 @@ public class SampleGame
 
     public void Update(float _deltaTime)
     {
+
+        timer += _deltaTime;
         //TODO: delete the ball when it shld be gone
         //when user throw
         if (true){
@@ -43,6 +47,30 @@ public class SampleGame
             currBall = Ball.Create();
             timer = 0;
         }
+
+
+        if(TouchManager.Instance.isDown() && !isPressed)
+        {
+            currEntity =  SampleEntity.Create();
+            isPressed = true;
+        }
+
+        if(TouchManager.Instance.HasTouch())
+        {
+            if(currEntity != null) {
+                currEntity.SetDir(new Vector3(TouchManager.Instance.GetPosX() - currEntity.GetPos().x,
+                        TouchManager.Instance.GetPosY() - currEntity.GetPos().y, 1));
+            }
+        }
+        else
+        {
+            if(currEntity != null)
+            {
+                isPressed = false;
+                currEntity.SetIsMove(true);
+            }
+        }
+
 
         EntityManager.Instance.Update(_deltaTime);
     }
