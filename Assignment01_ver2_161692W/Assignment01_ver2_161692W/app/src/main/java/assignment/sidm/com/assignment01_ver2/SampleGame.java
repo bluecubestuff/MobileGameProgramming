@@ -9,12 +9,12 @@ import android.view.SurfaceView;
 public class SampleGame
 {
     public final static SampleGame Instance = new SampleGame();
-    private  SampleEntity currEntity = null;
+    //private  EntityBase currEntity = null;
     private boolean isPressed = false;
 
     private float timer = 0.0f;
-    private Ball currBall;
-
+    private Ball currBall = null;
+    private Vector3 force = new Vector3(1,1,1);
     private SampleGame()
     {
 
@@ -25,7 +25,7 @@ public class SampleGame
         EntityManager.Instance.Init(_view);
         SampleBackground.Create();
 
-        currBall = Ball.Create();
+       // currBall = Ball.Create();
     }
 
     public void Update(float _deltaTime)
@@ -34,6 +34,7 @@ public class SampleGame
         timer += _deltaTime;
         //TODO: delete the ball when it shld be gone
         //when user throw
+        /*
         if (true){
             Vector3 force = new Vector3(0, -100, 0);
             currBall.Throw(force);
@@ -47,30 +48,33 @@ public class SampleGame
             currBall = Ball.Create();
             timer = 0;
         }
+        */
 
-
+        //here to throw
         if(TouchManager.Instance.isDown() && !isPressed)
-        {
-            currEntity =  SampleEntity.Create();
+        {   //check if mouse down spawn a ball
+            currBall =  Ball.Create();
             isPressed = true;
         }
 
         if(TouchManager.Instance.HasTouch())
-        {
-            if(currEntity != null) {
-                currEntity.SetDir(new Vector3(TouchManager.Instance.GetPosX() - currEntity.GetPos().x,
-                        TouchManager.Instance.GetPosY() - currEntity.GetPos().y, 1));
+        {   //if holding down on screen
+            if(currBall != null) {
+                //set the force base on dist  from finger to ball
+                force =  new Vector3(TouchManager.Instance.GetPosX() - currBall.GetPosX(),
+                        TouchManager.Instance.GetPosY() - currBall.GetPosY(), 1);
             }
         }
         else
-        {
-            if(currEntity != null)
-            {
+        {   //not holding down on screen
+            if(currBall != null)
+            {   //throw ball & unfreeze
                 isPressed = false;
-                currEntity.SetIsMove(true);
+                currBall.Throw(force);
+                currBall.unFreeze();
             }
         }
-
+        //end of da throw
 
         EntityManager.Instance.Update(_deltaTime);
     }

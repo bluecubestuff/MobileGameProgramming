@@ -84,7 +84,7 @@ public class Ball implements EntityBase, Collidable{
         float chance = randGen.nextFloat();
         if (chance <= .25){
             type = TYPE.PAPER;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.start);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else if (chance <= .5){
             type = TYPE.PLASTIC;
@@ -104,8 +104,10 @@ public class Ball implements EntityBase, Collidable{
     public void Update(float _dt) {
         //update the ball
         Vector3 gravity = new Vector3(0, -100, 100);
-        pos = pos.Add(vel.multiply_scalar(_dt));
-        vel = vel.Subtract(gravity.multiply_scalar(_dt));
+        if(!freeze) {
+            pos = pos.Add(vel.multiply_scalar(_dt));
+            vel = vel.Subtract(gravity.multiply_scalar(_dt));
+       }
     }
 
     @Override
