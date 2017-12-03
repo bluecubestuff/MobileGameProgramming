@@ -32,6 +32,26 @@ public class Vector3
       x = y = z = 0.0f;
     }
 
+    Vector3 Add(final Vector3 rhs)
+    {
+        return new Vector3(x + rhs.x,y + rhs.y,z + rhs.z);
+    }
+
+    Vector3 Subtract(final Vector3 rhs)
+    {
+        return new Vector3(x - rhs.x,y - rhs.y,z - rhs.z);
+    }
+
+    Vector3 unary_negation()
+    {
+        return new Vector3(-x,-y ,-z );
+    }
+
+    Vector3 multiply_scalar(final float scalar)
+    {
+        return new Vector3(x * scalar,y * scalar ,z * scalar );
+    }
+
     float Length()
     {
         return (float) sqrt(x * x + y * y + z * z);
