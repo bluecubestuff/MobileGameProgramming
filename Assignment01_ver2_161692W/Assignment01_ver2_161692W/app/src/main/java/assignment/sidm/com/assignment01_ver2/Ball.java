@@ -25,9 +25,11 @@ public class Ball implements EntityBase, Collidable{
     private TYPE type;
     private Bitmap bmp = null;
 
+    private String ballType;
+
     @Override
     public String GetType() {
-        return null;
+        return ballType;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class Ball implements EntityBase, Collidable{
 
     @Override
     public void OnHit(Collidable _other) {
-
+        Log.d("BALL_HIT","HIT");
     }
 
     public void Throw(Vector3 force){
@@ -89,18 +91,22 @@ public class Ball implements EntityBase, Collidable{
         float chance = randGen.nextFloat();
         if (chance <= .25){
             type = TYPE.PAPER;
+            ballType = "paper_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else if (chance <= .5){
             type = TYPE.PLASTIC;
+            ballType = "plastic_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else if (chance <= .75){
             type = TYPE.GLASS;
+            ballType = "glass_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else{
             type = TYPE.METAL;
+            ballType = "metal_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
     }
