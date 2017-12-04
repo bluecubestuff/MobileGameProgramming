@@ -24,6 +24,7 @@ public class Ball implements EntityBase, Collidable{
     private boolean freeze;
     private TYPE type;
     private Bitmap bmp = null;
+    float size;
 
     private String ballType;
 
@@ -48,8 +49,16 @@ public class Ball implements EntityBase, Collidable{
     }
 
     @Override
-    public void OnHit(Collidable _other) {
-        Log.d("BALL_HIT","HIT");
+    public void OnHit(Collidable _other)
+    {
+        if(pos.z < 10.f ||
+                pos.z > 15.f)
+            return;
+
+        if(_other.GetType() == "paper_bin")
+            SetIsDone(true);
+
+       // Log.d("BALL_HIT","HIT");
     }
 
     public void Throw(Vector3 force){
@@ -84,6 +93,7 @@ public class Ball implements EntityBase, Collidable{
         freeze = true;
         pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
         vel = new Vector3(0,0,0);
+        size = SampleGame.Instance.getWorldX() /2;
         scale = new Vector3(1, 1,1);
 
         //randomly decides what kind of ball should it be
@@ -119,6 +129,9 @@ public class Ball implements EntityBase, Collidable{
             pos = pos.Add(vel.multiply_scalar(_dt));
             vel = vel.Subtract(gravity.multiply_scalar(_dt));
             scale.x = scale.y = 1.f / (float)sqrt(pos.z);
+
+            Log.d("PosZ:",Float.toString(pos.z));
+
             if (shouldDespawn()){
                 SetIsDone(true);
                 Log.d("Ball", "Despawned");

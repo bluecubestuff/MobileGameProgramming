@@ -44,7 +44,6 @@ public class EntityManager
         removeList.clear();
 
         //collision here
-
         for(int i = 0;i < collisionList.size();++i)
         {
             EntityBase currEntity = collisionList.get(i);

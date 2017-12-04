@@ -3,6 +3,7 @@ package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceView;
 
 import java.util.Random;
@@ -61,6 +62,7 @@ public class SampleEntity implements EntityBase, Collidable
             pos.x +=  dir.x * _dt;
             pos.y += dir.y * _dt;
         }
+
 
        // xPos += xDir * _dt;
        // yPos += yDir * _dt;

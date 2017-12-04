@@ -33,6 +33,9 @@ public class SampleGame
         worldY = worldX * (_view.getHeight()/_view.getWidth());
         screenX = _view.getWidth();
         screenY = _view.getHeight();
+
+        Bin paperBin = new Bin(new Vector3(getWorldX() / 2,getWorldY() / 4, 10), Bin.TYPE.PAPER);
+
     }
 
     public void Update(float _deltaTime)
