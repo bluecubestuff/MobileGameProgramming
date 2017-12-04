@@ -110,11 +110,13 @@ public class Ball implements EntityBase, Collidable{
         //update the ball
         if (!freeze) {
             Vector3 gravity = new Vector3(0, -30, 0);
-            pos.x += vel.x * _dt;
-            pos.y += vel.y * _dt;
-            pos.z += vel.z * _dt;
-            vel.y -= gravity.y * _dt;
+            pos = pos.Add(vel.multiply_scalar(_dt));
+            vel = vel.Subtract(gravity.multiply_scalar(_dt));
             scale.x = scale.y = 1.f / (float)sqrt(pos.z);
+            if (shouldDespawn()){
+                SetIsDone(true);
+                Log.d("Ball", "Despawned");
+            }
         }
     }
 
@@ -147,6 +149,13 @@ public class Ball implements EntityBase, Collidable{
 
     public boolean getFreeze(){
         return freeze;
+    }
+
+    public boolean shouldDespawn(){
+        if (pos.x > SampleGame.Instance.getWorldX() || pos.x < 0 || pos.y > SampleGame.Instance.getWorldY()){
+            return true;
+        }
+        return false;
     }
 
     public Vector3 CameraSpace(Canvas _canvas){
