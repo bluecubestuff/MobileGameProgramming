@@ -14,7 +14,8 @@ public class Bin implements EntityBase, Collidable
     private Vector3 scale;
     private boolean isDone;
     private Bitmap bmp = null;
-    float size = 30;
+
+    float size = 16;
 
     private TYPE type;
     enum TYPE {
@@ -29,7 +30,24 @@ public class Bin implements EntityBase, Collidable
     {
         pos = _pos;
         type = _type;
-        binType = "paper_bin";
+
+        switch(_type)
+        {
+            case PAPER:
+                binType = "paper_bin";
+                break;
+            case PLASTIC:
+                binType = "plastic_bin";
+                break;
+            case GLASS:
+                binType = "glass_bin";
+                break;
+            case METAL:
+                binType = "metal_bin";
+                break;
+
+        }
+
         EntityManager.Instance.AddEntity(this);
     }
 
@@ -49,6 +67,11 @@ public class Bin implements EntityBase, Collidable
     }
 
     @Override
+    public float GetPosZ()  {
+        return pos.z;
+    }
+
+    @Override
     public float GetRadius() {
         return (size * 0.5f);
         //return scale.x * 0.5f;
@@ -56,20 +79,37 @@ public class Bin implements EntityBase, Collidable
 
     @Override
     public void OnHit(Collidable _other) {
+
+       if(_other.GetPosZ() < 7.f ||
+               _other.GetPosZ() > 8.5f)
+           return;
+
         Log.d("BIN_HIT","HIT");
         switch(_other.GetType())
         {
             case "paper_ball":
-               // if(type == type.PAPER)
-                    //add score
-              //  else
-                    //minus score
+                if(type == TYPE.PAPER)
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                else
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
                 break;
             case "plastic_ball":
+                if(type == TYPE.PLASTIC)
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                else
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
                 break;
             case "glass_ball":
+                if(type == TYPE.GLASS)
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                else
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
                 break;
             case "metal_ball":
+                if(type == TYPE.METAL)
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                else
+                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
                 break;
         }
     }
@@ -95,13 +135,13 @@ public class Bin implements EntityBase, Collidable
                 bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin_placeholder);
                 break;
             case PLASTIC:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_bin_placeholder);
                 break;
             case GLASS:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_bin_placeholder);
                 break;
             case METAL:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_bin_placeholder);
                 break;
         }
 

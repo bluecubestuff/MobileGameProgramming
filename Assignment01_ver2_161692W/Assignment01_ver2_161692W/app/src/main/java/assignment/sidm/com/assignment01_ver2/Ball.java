@@ -44,6 +44,9 @@ public class Ball implements EntityBase, Collidable{
     }
 
     @Override
+    public float GetPosZ(){return pos.z;}
+
+    @Override
     public float GetRadius() {
         return (size * 0.5f);
     }
@@ -51,11 +54,14 @@ public class Ball implements EntityBase, Collidable{
     @Override
     public void OnHit(Collidable _other)
     {
-        if(pos.z < 10.f ||
-                pos.z > 15.f)
+        if(pos.z < 7.f ||
+                pos.z > 8.5f)
             return;
 
-        if(_other.GetType() == "paper_bin")
+        if(_other.GetType() == "paper_bin"
+                ||_other.GetType() == "plastic_bin"
+                ||_other.GetType() == "glass_bin"
+                ||_other.GetType() == "metal_bin")
             SetIsDone(true);
 
        // Log.d("BALL_HIT","HIT");
@@ -95,7 +101,7 @@ public class Ball implements EntityBase, Collidable{
         vel = new Vector3(0,0,0);
         size = SampleGame.Instance.getWorldX() /2;
         scale = new Vector3(1, 1,1);
-        size = 20;
+        size = 10;
 
         //randomly decides what kind of ball should it be
         Random randGen = new Random();

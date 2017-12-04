@@ -104,6 +104,11 @@ public class SampleEntity implements EntityBase, Collidable
     }
 
     @Override
+    public float GetPosZ() {
+        return 0;
+    }
+
+    @Override
     public float GetRadius() {
         return bmp.getHeight() * 0.5f;
     }

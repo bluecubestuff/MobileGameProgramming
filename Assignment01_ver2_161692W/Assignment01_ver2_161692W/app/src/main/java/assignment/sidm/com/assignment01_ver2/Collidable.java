@@ -5,6 +5,7 @@ public interface Collidable
     String GetType();
     float GetPosX();
     float GetPosY();
+    float GetPosZ();
     float GetRadius();
 
     void OnHit(Collidable _other);
