@@ -50,7 +50,7 @@ public class Bin implements EntityBase, Collidable
 
     @Override
     public float GetRadius() {
-        return size;
+        return (size * 0.5f);
         //return scale.x * 0.5f;
     }
 

@@ -45,7 +45,7 @@ public class Ball implements EntityBase, Collidable{
 
     @Override
     public float GetRadius() {
-        return size;
+        return (size * 0.5f);
     }
 
     @Override
