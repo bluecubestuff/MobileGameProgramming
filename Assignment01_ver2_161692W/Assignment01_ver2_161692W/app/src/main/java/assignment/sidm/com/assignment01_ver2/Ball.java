@@ -24,7 +24,7 @@ public class Ball implements EntityBase, Collidable{
     private boolean freeze;
     private TYPE type;
     private Bitmap bmp = null;
-    float size;
+    private float size;
 
     private String ballType;
 
@@ -45,7 +45,7 @@ public class Ball implements EntityBase, Collidable{
 
     @Override
     public float GetRadius() {
-        return bmp.getHeight() * 0.5f;
+        return size;
     }
 
     @Override
@@ -95,6 +95,7 @@ public class Ball implements EntityBase, Collidable{
         vel = new Vector3(0,0,0);
         size = SampleGame.Instance.getWorldX() /2;
         scale = new Vector3(1, 1,1);
+        size = 20;
 
         //randomly decides what kind of ball should it be
         Random randGen = new Random();
@@ -107,17 +108,17 @@ public class Ball implements EntityBase, Collidable{
         else if (chance <= .5){
             type = TYPE.PLASTIC;
             ballType = "plastic_ball";
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_trash_placeholder);
         }
         else if (chance <= .75){
             type = TYPE.GLASS;
             ballType = "glass_ball";
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_trash_placeholder);
         }
         else{
             type = TYPE.METAL;
             ballType = "metal_ball";
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_trash_placeholder);
         }
     }
 
@@ -128,7 +129,7 @@ public class Ball implements EntityBase, Collidable{
             Vector3 gravity = new Vector3(0, -30, 0);
             pos = pos.Add(vel.multiply_scalar(_dt));
             vel = vel.Subtract(gravity.multiply_scalar(_dt));
-            scale.x = scale.y = 1.f / (float)sqrt(pos.z);
+            scale.x = scale.y = 1.f / pos.z;
 
             Log.d("PosZ:",Float.toString(pos.z));
 
@@ -147,12 +148,15 @@ public class Ball implements EntityBase, Collidable{
         xPos = screenPos.x;
         yPos = screenPos.y;
         Matrix mtx = new Matrix();
-        mtx.setScale(scale.x, scale.y);
-        mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
+        mtx.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //scale the bmp to 1 unit in world space
+        float oneUnit = _canvas.getWidth() / SampleGame.Instance.getWorldX();
+        mtx.postScale(oneUnit / bmp.getWidth(), oneUnit/ bmp.getHeight());
+        mtx.postScale(scale.x * size, scale.y * size);
+        mtx.postTranslate(xPos, yPos);
 
+        //mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
         //mtx.postTranslate((float)(scale.x * bmp.getWidth() * 0.5), (float)(scale.y * bmp.getHeight() * 0.5));
-
-
         _canvas.drawBitmap(bmp, mtx, null);
     }
 
@@ -169,6 +173,8 @@ public class Ball implements EntityBase, Collidable{
     public boolean getFreeze(){
         return freeze;
     }
+
+    public float getSize() {return (size/2);}
 
     public boolean shouldDespawn(){
         if (pos.x > SampleGame.Instance.getWorldX() || pos.x < 0 || pos.y > SampleGame.Instance.getWorldY()){

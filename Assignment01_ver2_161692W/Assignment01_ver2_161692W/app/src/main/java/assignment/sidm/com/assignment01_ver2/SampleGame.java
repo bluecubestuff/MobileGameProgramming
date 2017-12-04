@@ -34,7 +34,7 @@ public class SampleGame
         screenX = _view.getWidth();
         screenY = _view.getHeight();
 
-        Bin paperBin = new Bin(new Vector3(getWorldX() / 2,getWorldY() / 4, 10), Bin.TYPE.PAPER);
+        Bin paperBin = new Bin(new Vector3(getWorldX() / 2,getWorldY() / 4, 1), Bin.TYPE.PAPER);
 
     }
 

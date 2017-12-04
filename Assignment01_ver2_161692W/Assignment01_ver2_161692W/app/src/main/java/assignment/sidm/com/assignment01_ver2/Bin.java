@@ -14,6 +14,7 @@ public class Bin implements EntityBase, Collidable
     private Vector3 scale;
     private boolean isDone;
     private Bitmap bmp = null;
+    float size = 30;
 
     private TYPE type;
     enum TYPE {
@@ -49,7 +50,7 @@ public class Bin implements EntityBase, Collidable
 
     @Override
     public float GetRadius() {
-        return bmp.getHeight() * 0.5f;
+        return size;
         //return scale.x * 0.5f;
     }
 
@@ -86,7 +87,7 @@ public class Bin implements EntityBase, Collidable
     @Override
     public void Init(SurfaceView _view) {
         isDone = false;
-        scale = new Vector3(100,100,1);
+        scale = new Vector3(1,1,1);
 
         switch(type)
         {
@@ -109,10 +110,12 @@ public class Bin implements EntityBase, Collidable
 
     @Override
     public void Update(float _dt) {
-
+        scale.x = scale.y = 1.f / pos.z;
 
 
     }
+
+    public float getSize() {return (size / 2);}
 
     @Override
     public void Render(Canvas _canvas) {
@@ -122,8 +125,12 @@ public class Bin implements EntityBase, Collidable
         xPos = screenPos.x;
         yPos = screenPos.y;
         Matrix mtx = new Matrix();
-        mtx.setScale(scale.x, scale.y);
-        mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
+        mtx.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //scale the bmp to 1 unit in world space
+        float oneUnit = _canvas.getWidth() / SampleGame.Instance.getWorldX();
+        mtx.postScale(oneUnit / bmp.getWidth(), oneUnit/ bmp.getHeight());
+        mtx.postScale(scale.x * size, scale.y * size);
+        mtx.postTranslate(xPos, yPos);
 
         //Log.d("PosX:",Float.toString(pos.x));
 
