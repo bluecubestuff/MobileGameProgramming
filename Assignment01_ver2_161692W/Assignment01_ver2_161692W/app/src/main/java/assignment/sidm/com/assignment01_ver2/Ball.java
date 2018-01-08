@@ -5,6 +5,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -22,9 +25,12 @@ public class Ball implements EntityBase, Collidable{
     private Vector3 scale;
     private boolean isDone;
     private boolean freeze;
+    private boolean isInit = false;
     private TYPE type;
     private Bitmap bmp = null;
     private float size;
+
+    private Vibrator m_vibrator;
 
     private String ballType;
 
@@ -61,9 +67,10 @@ public class Ball implements EntityBase, Collidable{
         if(_other.GetType() == "paper_bin"
                 ||_other.GetType() == "plastic_bin"
                 ||_other.GetType() == "glass_bin"
-                ||_other.GetType() == "metal_bin")
+                ||_other.GetType() == "metal_bin") {
             SetIsDone(true);
-
+            startVibrate();
+        }
        // Log.d("BALL_HIT","HIT");
     }
 
@@ -73,6 +80,19 @@ public class Ball implements EntityBase, Collidable{
         //Vector3 y = new Vector3(0, force.y, 0);
         //vel.Set(force.x, force.y, x.Cross(y).Length());
         vel.Set(force.x, force.y,force.z);
+    }
+
+    public void startVibrate()
+    {
+        if(Build.VERSION.SDK_INT >= 26)
+        {
+            m_vibrator.vibrate(VibrationEffect.createOneShot(1540,10));
+        }
+        else
+        {
+            long pattern[] = {0,50,0};
+            m_vibrator.vibrate(pattern,-1);
+        }
     }
 
     enum TYPE {
@@ -94,7 +114,13 @@ public class Ball implements EntityBase, Collidable{
     }
 
     @Override
+    public boolean IsInit() {
+        return isInit;
+    }
+
+    @Override
     public void Init(SurfaceView _view) {
+        isInit = true;
         isDone = false;
         freeze = true;
         pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
@@ -102,6 +128,7 @@ public class Ball implements EntityBase, Collidable{
         size = SampleGame.Instance.getWorldX() /2;
         scale = new Vector3(1, 1,1);
         size = 10;
+        m_vibrator = (Vibrator) _view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
 
         //randomly decides what kind of ball should it be
         Random randGen = new Random();

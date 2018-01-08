@@ -14,6 +14,7 @@ public class SampleEntity implements EntityBase, Collidable
     private Bitmap bmp = null;
     private boolean isDone = false;
     private boolean isMove = false;
+    private boolean isInit = false;
 
     private float xPos, yPos, xDir, yDir, lifeTime;
     private Vector3 pos,dir;
@@ -28,6 +29,11 @@ public class SampleEntity implements EntityBase, Collidable
     @Override
     public void SetIsDone(boolean _isDone) {
         isDone = _isDone;
+    }
+
+    @Override
+    public boolean IsInit() {
+        return isInit;
     }
 
     public void SetIsMove(boolean _isMove) {isMove = _isMove;}
@@ -47,7 +53,7 @@ public class SampleEntity implements EntityBase, Collidable
 
         pos = new Vector3(TouchManager.Instance.GetPosX(),TouchManager.Instance.GetPosY(), 0);
         dir = new Vector3(1.f,1.f,1.f);
-
+        isInit = true;
     }
 
     @Override

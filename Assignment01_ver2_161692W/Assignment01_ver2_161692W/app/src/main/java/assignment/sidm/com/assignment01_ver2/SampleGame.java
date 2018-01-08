@@ -24,6 +24,8 @@ public class SampleGame
     private int score = 0;
     private Paint paint;
 
+    private boolean isPause = false;
+
     private SampleGame()
     {
 
@@ -128,5 +130,15 @@ public class SampleGame
     }
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
+
+    public void SetIsPause(boolean _isPause)
+    {
+        isPause = _isPause;
+    }
+
+    public boolean IsPause()
+    {
+        return isPause;
+    }
 }
 

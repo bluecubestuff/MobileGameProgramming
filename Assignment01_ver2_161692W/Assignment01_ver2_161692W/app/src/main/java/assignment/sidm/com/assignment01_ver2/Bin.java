@@ -13,6 +13,7 @@ public class Bin implements EntityBase, Collidable
     private Vector3 pos = new Vector3(1,1,1);
     private Vector3 scale;
     private boolean isDone;
+    private boolean isInit = false;
     private Bitmap bmp = null;
 
     float size = 16;
@@ -125,10 +126,15 @@ public class Bin implements EntityBase, Collidable
     }
 
     @Override
+    public boolean IsInit() {
+        return isInit;
+    }
+
+    @Override
     public void Init(SurfaceView _view) {
         isDone = false;
         scale = new Vector3(1,1,1);
-
+        isInit = true;
         switch(type)
         {
             case PAPER:
@@ -185,3 +191,4 @@ public class Bin implements EntityBase, Collidable
         return camPos;
     }
 }
+
