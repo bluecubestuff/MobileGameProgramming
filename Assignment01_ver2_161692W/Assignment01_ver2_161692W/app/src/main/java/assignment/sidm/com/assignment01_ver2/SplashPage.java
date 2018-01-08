@@ -45,6 +45,9 @@ public class SplashPage extends Activity {
                     finish();
                     //Create new activity based on and intent with CurrentActivity
                     Intent intent = new Intent(SplashPage.this, Mainmenu.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                 }
             }
@@ -52,9 +55,9 @@ public class SplashPage extends Activity {
         splashTread.start();
 
         //init all the audio stuff
-        AudioPlayer.Instance.AddAudio("music", R.raw.music);
-        AudioPlayer.Instance.AddAudio("press", R.raw.press);
-        AudioPlayer.Instance.AddAudio("throw", R.raw.throw);
+        //AudioPlayer.Instance.AddAudio("music", R.raw.music);
+        //AudioPlayer.Instance.AddAudio("press", R.raw.press);
+        //AudioPlayer.Instance.AddAudio("throw", R.raw.throwball);
     }
 
     @Override

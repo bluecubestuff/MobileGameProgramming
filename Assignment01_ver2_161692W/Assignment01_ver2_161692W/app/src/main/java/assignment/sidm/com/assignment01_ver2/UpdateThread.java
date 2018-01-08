@@ -17,7 +17,6 @@ public class UpdateThread extends Thread
     {
         view = _view;
         holder = view.getHolder();
-
     }
 
     public boolean IsRunning()
@@ -28,6 +27,7 @@ public class UpdateThread extends Thread
     public void Initialise()
     {
         isRunning = true;
+        AudioManager.Instance.Init(view);
         SampleGame.Instance.Init(view);
     }
 
@@ -52,6 +52,7 @@ public class UpdateThread extends Thread
             long currTime = System.nanoTime();
             float deltaTime = (float)((currTime - prevTime) / 1000000000.0f);
             prevTime = currTime;
+
 
             SampleGame.Instance.Update(deltaTime);
 

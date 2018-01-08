@@ -3,7 +3,9 @@ package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.media.MediaPlayer;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -19,10 +21,24 @@ public class SampleGame
     private Vector3 force = new Vector3(1,1,1);
     private float worldX, worldY, screenX, screenY;
     private Vector3 press = new Vector3(0,0,0);
+    private int score = 0;
+    private Paint paint;
+
+    private boolean isPause = false;
 
     private SampleGame()
     {
 
+    }
+
+    public void SetScore(int _score)
+    {
+        score = _score;
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 
     public void Init(SurfaceView _view)
@@ -34,6 +50,18 @@ public class SampleGame
         worldY = worldX * (_view.getHeight()/_view.getWidth());
         screenX = _view.getWidth();
         screenY = _view.getHeight();
+
+        Bin paperBin = new Bin(new Vector3(getWorldX()/ 5,getWorldY() / 4, 1), Bin.TYPE.PAPER);
+        Bin plasticBin = new Bin(new Vector3(2 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.PLASTIC);
+        Bin glassBin = new Bin(new Vector3(3 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.GLASS);
+        Bin metalBin = new Bin(new Vector3(4 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.METAL);
+
+
+        paint = new Paint();
+        paint.setColor(Color.MAGENTA);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setTextSize(55);
     }
 
     public void Update(float _deltaTime)
@@ -87,6 +115,7 @@ public class SampleGame
                 currBall.unFreeze();
                 currBall = null;
                 //play some kind of sound
+                //AudioPlayer.Instance.PlayAudio(Mainmenu.instance, "throw");
             }
         }
         //end of da throw
@@ -97,8 +126,21 @@ public class SampleGame
     public void Render(Canvas _canvas)
     {
         EntityManager.Instance.Render(_canvas);
+
+        String str_score = String.valueOf(score);
+        _canvas.drawText(str_score,_canvas.getWidth() * 0.5f,_canvas.getHeight(),paint);
     }
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
+
+    public void SetIsPause(boolean _isPause)
+    {
+        isPause = _isPause;
+    }
+
+    public boolean IsPause()
+    {
+        return isPause;
+    }
 }
 

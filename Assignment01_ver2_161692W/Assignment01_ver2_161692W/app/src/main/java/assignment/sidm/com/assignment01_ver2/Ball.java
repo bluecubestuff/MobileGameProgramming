@@ -5,6 +5,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -22,13 +25,18 @@ public class Ball implements EntityBase, Collidable{
     private Vector3 scale;
     private boolean isDone;
     private boolean freeze;
+    private boolean isInit = false;
     private TYPE type;
     private Bitmap bmp = null;
-    private float rotate;
+    private float size;
+
+    private Vibrator m_vibrator;
+
+    private String ballType;
 
     @Override
     public String GetType() {
-        return null;
+        return ballType;
     }
 
     @Override
@@ -42,13 +50,28 @@ public class Ball implements EntityBase, Collidable{
     }
 
     @Override
+    public float GetPosZ(){return pos.z;}
+
+    @Override
     public float GetRadius() {
-        return bmp.getHeight() * 0.5f;
+        return (size * 0.5f);
     }
 
     @Override
-    public void OnHit(Collidable _other) {
+    public void OnHit(Collidable _other)
+    {
+        if(pos.z < 7.f ||
+                pos.z > 8.5f)
+            return;
 
+        if(_other.GetType() == "paper_bin"
+                ||_other.GetType() == "plastic_bin"
+                ||_other.GetType() == "glass_bin"
+                ||_other.GetType() == "metal_bin") {
+            SetIsDone(true);
+            startVibrate();
+        }
+       // Log.d("BALL_HIT","HIT");
     }
 
     public void Throw(Vector3 force){
@@ -57,6 +80,19 @@ public class Ball implements EntityBase, Collidable{
         //Vector3 y = new Vector3(0, force.y, 0);
         //vel.Set(force.x, force.y, x.Cross(y).Length());
         vel.Set(force.x, force.y,force.z);
+    }
+
+    public void startVibrate()
+    {
+        if(Build.VERSION.SDK_INT >= 26)
+        {
+            m_vibrator.vibrate(VibrationEffect.createOneShot(1540,10));
+        }
+        else
+        {
+            long pattern[] = {0,50,0};
+            m_vibrator.vibrate(pattern,-1);
+        }
     }
 
     enum TYPE {
@@ -78,31 +114,43 @@ public class Ball implements EntityBase, Collidable{
     }
 
     @Override
+    public boolean IsInit() {
+        return isInit;
+    }
+
+    @Override
     public void Init(SurfaceView _view) {
+        isInit = true;
         isDone = false;
         freeze = true;
-        rotate = 0;
         pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
         vel = new Vector3(0,0,0);
+        size = SampleGame.Instance.getWorldX() /2;
         scale = new Vector3(1, 1,1);
+        size = 10;
+        m_vibrator = (Vibrator) _view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
 
         //randomly decides what kind of ball should it be
         Random randGen = new Random();
         float chance = randGen.nextFloat();
         if (chance <= .25){
             type = TYPE.PAPER;
+            ballType = "paper_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
         }
         else if (chance <= .5){
             type = TYPE.PLASTIC;
+            ballType = "plastic_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_trash_placeholder);
         }
         else if (chance <= .75){
             type = TYPE.GLASS;
+            ballType = "glass_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_trash_placeholder);
         }
         else{
             type = TYPE.METAL;
+            ballType = "metal_ball";
             bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_trash_placeholder);
         }
     }
@@ -115,6 +163,9 @@ public class Ball implements EntityBase, Collidable{
             pos = pos.Add(vel.multiply_scalar(_dt));
             vel = vel.Subtract(gravity.multiply_scalar(_dt));
             scale.x = scale.y = 1.f / pos.z;
+
+            Log.d("PosZ:",Float.toString(pos.z));
+
             if (shouldDespawn()){
                 SetIsDone(true);
                 Log.d("Ball", "Despawned");
@@ -130,15 +181,15 @@ public class Ball implements EntityBase, Collidable{
         xPos = screenPos.x;
         yPos = screenPos.y;
         Matrix mtx = new Matrix();
-        mtx.setTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
-        mtx.postScale(scale.x, scale.y);
-        mtx.postRotate(rotate);
+        mtx.postTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        //scale the bmp to 1 unit in world space
+        float oneUnit = _canvas.getWidth() / SampleGame.Instance.getWorldX();
+        mtx.postScale(oneUnit / bmp.getWidth(), oneUnit/ bmp.getHeight());
+        mtx.postScale(scale.x * size, scale.y * size);
         mtx.postTranslate(xPos, yPos);
+
         //mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
-
         //mtx.postTranslate((float)(scale.x * bmp.getWidth() * 0.5), (float)(scale.y * bmp.getHeight() * 0.5));
-
-
         _canvas.drawBitmap(bmp, mtx, null);
     }
 
@@ -155,6 +206,8 @@ public class Ball implements EntityBase, Collidable{
     public boolean getFreeze(){
         return freeze;
     }
+
+    public float getSize() {return (size/2);}
 
     public boolean shouldDespawn(){
         if (pos.x > SampleGame.Instance.getWorldX() || pos.x < 0 || pos.y > SampleGame.Instance.getWorldY()){

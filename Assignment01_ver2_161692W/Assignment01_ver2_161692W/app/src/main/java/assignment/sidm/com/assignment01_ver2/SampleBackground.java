@@ -25,6 +25,9 @@ public class SampleBackground implements EntityBase
     }
 
     @Override
+    public boolean IsInit() {return bmp != null;}
+
+    @Override
     public void Init(SurfaceView _view) {
         view = _view;
         bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.backgnd);
