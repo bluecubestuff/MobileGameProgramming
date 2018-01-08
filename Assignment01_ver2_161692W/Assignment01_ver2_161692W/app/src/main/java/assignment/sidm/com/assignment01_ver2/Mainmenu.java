@@ -1,7 +1,11 @@
 package assignment.sidm.com.assignment01_ver2;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,11 +17,13 @@ import android.widget.Button;
 import assignment.sidm.com.assignment01_ver2.R;
 
 public class Mainmenu extends Activity implements OnClickListener {
-
+    public final static Mainmenu instance = new Mainmenu();
     //define dem btns
     private Button btn_start;
     private Button btn_highscore;
     private Button btn_setting;
+
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,10 @@ public class Mainmenu extends Activity implements OnClickListener {
 
         btn_setting = (Button)findViewById(R.id.btn_setting);
         btn_setting.setOnClickListener(this); //set listener to something btn
+
+        //AudioPlayer.Instance.PlayAudio(this, "music");
+        mp = MediaPlayer.create(this, R.raw.music);
+        mp.start();
     }
 
     @Override
@@ -52,18 +62,34 @@ public class Mainmenu extends Activity implements OnClickListener {
         if(v == btn_start)
         {   //intent is to set to another class which is another page/screen to go to
             intent.setClass(this,GamePage.class);
+            //AudioPlayer.Instance.PlayAudio(this, "press");
         }
         else if(v == btn_highscore)
         {
             intent.setClass(this,HighscorePage.class);
+            //AudioPlayer.Instance.PlayAudio(this, "press");
         }
         else if(v == btn_setting)
         {
             intent.setClass(this,SettingPage.class);
+            //AudioPlayer.Instance.PlayAudio(this, "press");
         }
 
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Exit")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                        mp.release();
+                        System.exit(0);
+                    }
+                }).setNegativeButton("No", null).show();
+    }
 }
 
