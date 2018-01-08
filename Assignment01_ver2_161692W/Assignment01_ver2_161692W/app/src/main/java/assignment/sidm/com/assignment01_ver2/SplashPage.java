@@ -1,6 +1,7 @@
 package assignment.sidm.com.assignment01_ver2;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -49,6 +50,11 @@ public class SplashPage extends Activity {
             }
         };
         splashTread.start();
+
+        //init all the audio stuff
+        AudioPlayer.Instance.AddAudio("music", R.raw.music);
+        AudioPlayer.Instance.AddAudio("press", R.raw.press);
+        AudioPlayer.Instance.AddAudio("throw", R.raw.throw);
     }
 
     @Override

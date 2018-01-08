@@ -3,6 +3,7 @@ package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -85,6 +86,7 @@ public class SampleGame
                 currBall.Throw(force);
                 currBall.unFreeze();
                 currBall = null;
+                //play some kind of sound
             }
         }
         //end of da throw

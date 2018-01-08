@@ -24,6 +24,7 @@ public class Ball implements EntityBase, Collidable{
     private boolean freeze;
     private TYPE type;
     private Bitmap bmp = null;
+    private float rotate;
 
     @Override
     public String GetType() {
@@ -80,6 +81,7 @@ public class Ball implements EntityBase, Collidable{
     public void Init(SurfaceView _view) {
         isDone = false;
         freeze = true;
+        rotate = 0;
         pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
         vel = new Vector3(0,0,0);
         scale = new Vector3(1, 1,1);
@@ -93,15 +95,15 @@ public class Ball implements EntityBase, Collidable{
         }
         else if (chance <= .5){
             type = TYPE.PLASTIC;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_trash_placeholder);
         }
         else if (chance <= .75){
             type = TYPE.GLASS;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_trash_placeholder);
         }
         else{
             type = TYPE.METAL;
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_trash);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_trash_placeholder);
         }
     }
 
@@ -112,7 +114,7 @@ public class Ball implements EntityBase, Collidable{
             Vector3 gravity = new Vector3(0, -30, 0);
             pos = pos.Add(vel.multiply_scalar(_dt));
             vel = vel.Subtract(gravity.multiply_scalar(_dt));
-            scale.x = scale.y = 1.f / (float)sqrt(pos.z);
+            scale.x = scale.y = 1.f / pos.z;
             if (shouldDespawn()){
                 SetIsDone(true);
                 Log.d("Ball", "Despawned");
@@ -128,8 +130,11 @@ public class Ball implements EntityBase, Collidable{
         xPos = screenPos.x;
         yPos = screenPos.y;
         Matrix mtx = new Matrix();
-        mtx.setScale(scale.x, scale.y);
-        mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
+        mtx.setTranslate(-bmp.getWidth() * 0.5f, -bmp.getHeight() * 0.5f);
+        mtx.postScale(scale.x, scale.y);
+        mtx.postRotate(rotate);
+        mtx.postTranslate(xPos, yPos);
+        //mtx.postTranslate((float)(xPos - bmp.getWidth() * (scale.x/2)), (float)(yPos - bmp.getHeight() * (scale.y/2)));
 
         //mtx.postTranslate((float)(scale.x * bmp.getWidth() * 0.5), (float)(scale.y * bmp.getHeight() * 0.5));
 
