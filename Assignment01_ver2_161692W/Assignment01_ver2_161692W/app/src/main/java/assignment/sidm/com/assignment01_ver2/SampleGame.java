@@ -24,7 +24,8 @@ public class SampleGame
     private int score = 0;
     private Paint paint;
 
-    private boolean isPause = false;
+    private UI_Element pause;
+   // private boolean isPause = false;
 
     private SampleGame()
     {
@@ -62,14 +63,23 @@ public class SampleGame
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
         paint.setTextSize(55);
+
+        pause = new UI_Element(new Vector3(4 * getWorldX() / 4.5f,getWorldY() / 11, 1), UI_Element.TYPE.PAUSE);
+        //UI_Element.Create();
     }
 
     public void Update(float _deltaTime)
     {
+        if(pause.getIsPause() == true)
+        {
+            if(TouchManager.Instance.isDown())
+                pause.setIsPause(false);
+        }
 
-        timer += _deltaTime;
-        //TODO: delete the ball when it shld be gone
-        //when user throw
+        if(pause.getIsPause() == false) {
+            timer += _deltaTime;
+            //TODO: delete the ball when it shld be gone
+            //when user throw
         /*
         if (currBall.getFreeze()){
             Vector3 force = new Vector3(0, -10 , 10);
@@ -86,41 +96,35 @@ public class SampleGame
         }
         */
 
-        //here to throw
-        if(TouchManager.Instance.isDown() && !isPressed)
-        {   //check if mouse down spawn a ball
-            currBall =  Ball.Create();
-            press.x = TouchManager.Instance.GetPosX();
-            press.y = TouchManager.Instance.GetPosY();
-            isPressed = true;
-        }
-
-        if(TouchManager.Instance.HasTouch())
-        {   //if holding down on screen
-            if(currBall != null) {
-                //set the force base on dist  from finger to ball
-                force =  new Vector3(TouchManager.Instance.GetPosX() - press.x,
-                        TouchManager.Instance.GetPosY() - press.y, 1);
-                force.x /= (screenX/worldX);
-                force.y /= (screenY/worldY);
-                force.z = 5;
+            //here to throw
+            if (TouchManager.Instance.isDown() && !isPressed) {   //check if mouse down spawn a ball
+                currBall = Ball.Create();
+                press.x = TouchManager.Instance.GetPosX();
+                press.y = TouchManager.Instance.GetPosY();
+                isPressed = true;
             }
-        }
-        else
-        {   //not holding down on screen
-            if(currBall != null)
-            {   //throw ball & unfreeze
-                isPressed = false;
-                currBall.Throw(force);
-                currBall.unFreeze();
-                currBall = null;
-                //play some kind of sound
-                //AudioPlayer.Instance.PlayAudio(Mainmenu.instance, "throw");
-            }
-        }
-        //end of da throw
 
-        EntityManager.Instance.Update(_deltaTime);
+            if (TouchManager.Instance.HasTouch()) {   //if holding down on screen
+                if (currBall != null) {
+                    //set the force base on dist  from finger to ball
+                    force = new Vector3(TouchManager.Instance.GetPosX() - press.x,
+                            TouchManager.Instance.GetPosY() - press.y, 1);
+                    force.x /= (screenX / worldX);
+                    force.y /= (screenY / worldY);
+                    force.z = 5;
+                }
+            } else {   //not holding down on screen
+                if (currBall != null) {   //throw ball & unfreeze
+                    isPressed = false;
+                    currBall.Throw(force);
+                    currBall.unFreeze();
+                    currBall = null;
+                }
+            }
+            //end of da throw
+
+            EntityManager.Instance.Update(_deltaTime);
+        }
     }
 
     public void Render(Canvas _canvas)
@@ -129,18 +133,23 @@ public class SampleGame
 
         String str_score = String.valueOf(score);
         _canvas.drawText(str_score,_canvas.getWidth() * 0.5f,_canvas.getHeight(),paint);
+
+        if(pause.getIsPause() == true)
+        {
+            _canvas.drawText("PAUSE",_canvas.getWidth() * 0.5f,_canvas.getHeight() * 0.5f,paint);
+        }
     }
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
 
-    public void SetIsPause(boolean _isPause)
-    {
-        isPause = _isPause;
-    }
+   // public void SetIsPause(boolean _isPause)
+   // {
+     //   isPause = _isPause;
+    //}
 
-    public boolean IsPause()
-    {
-        return isPause;
-    }
+   // public boolean IsPause()
+   // {
+   //     return isPause;
+   // }
 }
 
