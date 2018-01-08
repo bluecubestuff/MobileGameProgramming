@@ -79,22 +79,6 @@ public class SampleGame
         if(pause.getIsPause() == false) {
             timer += _deltaTime;
             //TODO: delete the ball when it shld be gone
-            //when user throw
-        /*
-        if (currBall.getFreeze()){
-            Vector3 force = new Vector3(0, -10 , 10);
-            currBall.Throw(force);
-            currBall.unFreeze();
-        }
-        if (!currBall.getFreeze()){
-            timer += _deltaTime;
-        }
-
-        if (timer >= 10.f){
-            currBall = Ball.Create();
-            timer = 0;
-        }
-        */
 
             //here to throw
             if (TouchManager.Instance.isDown() && !isPressed) {   //check if mouse down spawn a ball
