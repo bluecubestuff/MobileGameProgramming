@@ -17,6 +17,8 @@ public class UI_Element implements EntityBase, Collidable
     private boolean isPause = false;
     private Bitmap bmp = null;
 
+    private Vector3 sPos = new Vector3(1,1,1);
+
     float size = 16;
 
     private TYPE type;
@@ -106,15 +108,12 @@ public class UI_Element implements EntityBase, Collidable
     public void Update(float _dt) {
         scale.x = scale.y = 1.f / pos.z;
 
-      //  Log.d("cursor posX:",Float.toString(TouchManager.Instance.GetPosX()));
-      //  Log.d("cursor posY:",Float.toString(TouchManager.Instance.GetPosY()));
-
         if(TouchManager.Instance.isDown())
         {
             //if(Collision.SphereToSphere(pos.x,pos.y,GetRadius(),
              //       TouchManager.Instance.GetPosX(), TouchManager.Instance.GetPosY(),1))
-            if(TouchManager.Instance.GetPosX() > 860 && TouchManager.Instance.GetPosX() < 1050
-                    && TouchManager.Instance.GetPosY() > 50 && TouchManager.Instance.GetPosY() < 250)
+            if(TouchManager.Instance.GetPosX() > sPos.x - 100 && TouchManager.Instance.GetPosX() < sPos.x + 100
+                    && TouchManager.Instance.GetPosY() > sPos.y - 100 && TouchManager.Instance.GetPosY() < sPos.y + 100)
             {   //hardcode for now
                 Log.d("CLICK ON PAUSE","PAUSE");
                 isPause = true;
@@ -139,7 +138,10 @@ public class UI_Element implements EntityBase, Collidable
         mtx.postScale(scale.x * size, scale.y * size);
         mtx.postTranslate(xPos, yPos);
 
-        //Log.d("PosX:",Float.toString(pos.x));
+        sPos.Set(xPos,yPos,1);
+        //Log.d("PosX:",Float.toString(xPos));
+        //Log.d("PosY:",Float.toString(yPos));
+        //Log.d("PosY:",Float.toString(pos.y));
 
         //mtx.postTranslate((float)(scale.x * bmp.getWidth() * 0.5), (float)(scale.y * bmp.getHeight() * 0.5));
         _canvas.drawBitmap(bmp, mtx, null);
