@@ -27,10 +27,11 @@ public class GameView extends SurfaceView
                     if(!updateThread.IsRunning())
                         updateThread.Initialise();
 
-                    if(updateThread.isAlive())
-                        updateThread.run();
+                    if(!updateThread.isAlive())
+                        updateThread.start();
+                        //updateThread.run();
 
-                    updateThread.start();
+
                 }
 
                 @Override

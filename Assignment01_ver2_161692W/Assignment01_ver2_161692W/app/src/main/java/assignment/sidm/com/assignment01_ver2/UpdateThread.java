@@ -17,6 +17,7 @@ public class UpdateThread extends Thread
     {
         view = _view;
         holder = view.getHolder();
+
     }
 
     public boolean IsRunning()
@@ -28,7 +29,11 @@ public class UpdateThread extends Thread
     {
         isRunning = true;
         AudioManager.Instance.Init(view);
-        SampleGame.Instance.Init(view);
+        ResourceManager.Instance.Init(view);
+        EntityManager.Instance.Init(view);
+        StateManager.Instance.Init(view);
+        GameSystem.Instance.Init(view);
+        //SampleGame.Instance.Init(view);
     }
 
     public void Terminate()
@@ -38,53 +43,55 @@ public class UpdateThread extends Thread
 
     @Override
     public void run()
-    {
-        long framePerSecond = 1000 / targetFPS; // 1000 in milliseconds
+    { // This is for frame rate control
+        long framePerSecond = 1000 / targetFPS;
         long startTime = 0;
 
-        //need another variable to calculate deltaTime
+        // This is to calculate delta time (more precise)
         long prevTime = System.nanoTime();
 
-        while(isRunning)
+        StateManager.Instance.Start("Default");
+
+        // This is the game loop
+        while (isRunning && StateManager.Instance.GetCurrentState() != "INVALID")
         {
-            //Update
             startTime = System.currentTimeMillis();
             long currTime = System.nanoTime();
-            float deltaTime = (float)((currTime - prevTime) / 1000000000.0f);
+            float deltaTime = (float) ((currTime - prevTime) / 1000000000.0f);
             prevTime = currTime;
 
+            // Update
+            StateManager.Instance.Update(deltaTime);
 
-            SampleGame.Instance.Update(deltaTime);
-
-            //Render
+            // Render
             Canvas canvas = holder.lockCanvas(null);
-            if(canvas != null)
+            if (canvas != null)
             {
-                //synchronized is something like critical section
+                // Able to render
                 synchronized (holder)
-                {   //only one thread will draw
-                    canvas.drawColor(Color.RED);
+                {
+                    // Fill the background color to reset
+                    canvas.drawColor(Color.BLACK);
 
-                    //render other garbage here
-                    SampleGame.Instance.Render(canvas);
+                    StateManager.Instance.Render(canvas);
                 }
-
                 holder.unlockCanvasAndPost(canvas);
             }
 
-            //Post Update/Render
+            // Frame rate controller
             try
             {
                 long sleepTime = framePerSecond - (System.currentTimeMillis() - startTime);
-                if(sleepTime > 0)
+
+                if (sleepTime > 0)
                     sleep(sleepTime);
             }
             catch (InterruptedException e)
             {
-                Terminate();
+                isRunning = false;
             }
 
-            //End of looop
+            // End of Loop
         }
     }
 }
