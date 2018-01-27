@@ -138,16 +138,16 @@ public class Bin implements EntityBase, Collidable
         switch(type)
         {
             case PAPER:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.paper_bin_final);
                 break;
             case PLASTIC:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_bin_final);
                 break;
             case GLASS:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_bin_final);
                 break;
             case METAL:
-                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_bin_placeholder);
+                bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_bin_final);
                 break;
         }
 

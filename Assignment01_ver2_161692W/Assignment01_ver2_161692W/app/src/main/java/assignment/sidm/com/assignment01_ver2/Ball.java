@@ -125,8 +125,8 @@ public class Ball implements EntityBase, Collidable{
         freeze = true;
         pos = new Vector3(SampleGame.Instance.getWorldX() / 2,SampleGame.Instance.getWorldY() /4 * 3,1);
         vel = new Vector3(0,0,0);
-        size = SampleGame.Instance.getWorldX() /2;
-        scale = new Vector3(1, 1,1);
+        size = SampleGame.Instance.getWorldX() / 2;
+        scale = new Vector3(2, 2,2);
         size = 10;
         m_vibrator = (Vibrator) _view.getContext().getSystemService(_view.getContext().VIBRATOR_SERVICE);
 
@@ -141,17 +141,17 @@ public class Ball implements EntityBase, Collidable{
         else if (chance <= .5){
             type = TYPE.PLASTIC;
             ballType = "plastic_ball";
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_trash_placeholder);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.plastic_trash_final);
         }
         else if (chance <= .75){
             type = TYPE.GLASS;
             ballType = "glass_ball";
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_trash_placeholder);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.glass_trash_final);
         }
         else{
             type = TYPE.METAL;
             ballType = "metal_ball";
-            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_trash_placeholder);
+            bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.metal_trash_final);
         }
     }
 
