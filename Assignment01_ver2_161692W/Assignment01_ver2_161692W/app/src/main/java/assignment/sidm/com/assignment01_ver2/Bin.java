@@ -17,7 +17,7 @@ public class Bin implements EntityBase, Collidable
     private Bitmap bmp = null;
     private float binSpeed = 20;
 
-    float size = 16;
+    float size = 24;
 
     private TYPE type;
     enum TYPE {

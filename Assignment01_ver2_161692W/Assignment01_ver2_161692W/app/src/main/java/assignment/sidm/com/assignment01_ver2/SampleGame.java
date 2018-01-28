@@ -1,5 +1,6 @@
 package assignment.sidm.com.assignment01_ver2;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.SurfaceView;
 
@@ -31,7 +33,7 @@ public class SampleGame
     private int binCount = 0;
     private float binSpawnTimer = 0;
     private float binSpawnRate = 2;
-
+    private Context test;
     private UI_Element pause;
    // private boolean isPause = false;
 
@@ -69,6 +71,7 @@ public class SampleGame
         bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.game_bg);
 
         pause = new UI_Element(new Vector3(4 * getWorldX() / 4.5f,getWorldY() / 11, 1), UI_Element.TYPE.PAUSE);
+        test =  _view.getContext();
         //UI_Element.Create();
     }
 
@@ -107,6 +110,9 @@ public class SampleGame
                     currBall.Throw(force);
                     currBall.unFreeze();
                     currBall = null;
+                    Vibrator v = (Vibrator)test.getSystemService(Context.VIBRATOR_SERVICE);
+                    // Vibrate for 500 milliseconds
+                    v.vibrate(200);
                 }
             }
             //end of da throw
