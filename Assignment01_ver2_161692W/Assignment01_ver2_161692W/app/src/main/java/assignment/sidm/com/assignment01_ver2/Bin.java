@@ -15,6 +15,7 @@ public class Bin implements EntityBase, Collidable
     private boolean isDone;
     private boolean isInit = false;
     private Bitmap bmp = null;
+    private float binSpeed = 20;
 
     float size = 16;
 
@@ -157,8 +158,15 @@ public class Bin implements EntityBase, Collidable
     @Override
     public void Update(float _dt) {
         scale.x = scale.y = 1.f / pos.z;
-
-
+        if (pos.x > SampleGame.worldX + 10)
+            isDone = true;
+        if (pos.x < -10)
+            isDone = true;
+        if (pos.y > SampleGame.worldY + 10)
+            isDone = true;
+        if (pos.y < -10)
+            isDone = true;
+        pos.x += binSpeed * _dt;
     }
 
     public float getSize() {return (size / 2);}

@@ -9,6 +9,8 @@ import android.graphics.Typeface;
 import android.util.Log;
 import android.view.SurfaceView;
 
+import java.util.Random;
+
 public class SampleGame
 {
     public final static SampleGame Instance = new SampleGame();
@@ -19,10 +21,14 @@ public class SampleGame
 
     private Ball currBall = null;
     private Vector3 force = new Vector3(1,1,1);
-    private float worldX, worldY, screenX, screenY;
+    public static float worldX, worldY, screenX, screenY;
     private Vector3 press = new Vector3(0,0,0);
     private int score = 0;
     private Paint paint;
+
+    private int binCount = 0;
+    private float binSpawnTimer = 0;
+    private float binSpawnRate = 2;
 
     private UI_Element pause;
    // private boolean isPause = false;
@@ -51,12 +57,6 @@ public class SampleGame
         worldY = worldX * (_view.getHeight()/_view.getWidth());
         screenX = _view.getWidth();
         screenY = _view.getHeight();
-
-        Bin paperBin = new Bin(new Vector3(getWorldX()/ 5,getWorldY() / 4, 1), Bin.TYPE.PAPER);
-        Bin plasticBin = new Bin(new Vector3(2 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.PLASTIC);
-        Bin glassBin = new Bin(new Vector3(3 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.GLASS);
-        Bin metalBin = new Bin(new Vector3(4 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.METAL);
-
 
         paint = new Paint();
         paint.setColor(Color.MAGENTA);
@@ -108,6 +108,7 @@ public class SampleGame
             //end of da throw
 
             EntityManager.Instance.Update(_deltaTime);
+            BinController(_deltaTime);
         }
     }
 
@@ -125,6 +126,34 @@ public class SampleGame
     }
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
+
+    public void BinController(double dt)
+    {
+        binSpawnTimer += dt;
+        if (binSpawnTimer > binSpawnRate)
+        {
+            binSpawnTimer = 0;
+            Random r = new Random();
+            int type = r.nextInt(4 + 1);
+            Bin b;
+            switch (type)
+            {
+                case 1:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3 - 5) + 1) + 5, 1), Bin.TYPE.PAPER);
+                    break;
+                case 2:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3 - 5) + 1) + 5, 1), Bin.TYPE.GLASS);
+                    break;
+                case 3:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3 - 5) + 1) + 5, 1), Bin.TYPE.METAL);
+                    break;
+                case 4:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3) - 5 + 1) + 5, 1), Bin.TYPE.PLASTIC);
+                    break;
+            }
+
+        }
+    }
 
    // public void SetIsPause(boolean _isPause)
    // {
