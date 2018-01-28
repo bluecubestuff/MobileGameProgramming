@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -18,6 +19,7 @@ public class SampleGame
     private boolean isPressed = false;
 
     private float timer = 0.0f;
+    private Bitmap bmp = null;
 
     private Ball currBall = null;
     private Vector3 force = new Vector3(1,1,1);
@@ -63,6 +65,8 @@ public class SampleGame
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
         paint.setTextSize(55);
+
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.game_bg);
 
         pause = new UI_Element(new Vector3(4 * getWorldX() / 4.5f,getWorldY() / 11, 1), UI_Element.TYPE.PAUSE);
         //UI_Element.Create();
@@ -123,6 +127,9 @@ public class SampleGame
         {
             _canvas.drawText("PAUSE",_canvas.getWidth() * 0.5f,_canvas.getHeight() * 0.5f,paint);
         }
+
+        //render the background
+
     }
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
@@ -151,7 +158,7 @@ public class SampleGame
                     b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3) - 5 + 1) + 5, 1), Bin.TYPE.PLASTIC);
                     break;
             }
-
+            Log.d("spawnned", "spawno");
         }
     }
 
