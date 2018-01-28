@@ -1,13 +1,18 @@
 package assignment.sidm.com.assignment01_ver2;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.SurfaceView;
+
+import java.util.Random;
 
 public class SampleGame
 {
@@ -16,14 +21,19 @@ public class SampleGame
     private boolean isPressed = false;
 
     private float timer = 0.0f;
+    private Bitmap bmp = null;
 
     private Ball currBall = null;
     private Vector3 force = new Vector3(1,1,1);
-    private float worldX, worldY, screenX, screenY;
+    public static float worldX, worldY, screenX, screenY;
     private Vector3 press = new Vector3(0,0,0);
     private int score = 0;
     private Paint paint;
 
+    private int binCount = 0;
+    private float binSpawnTimer = 0;
+    private float binSpawnRate = 2;
+    private Context test;
     private UI_Element pause;
    // private boolean isPause = false;
 
@@ -52,19 +62,16 @@ public class SampleGame
         screenX = _view.getWidth();
         screenY = _view.getHeight();
 
-        Bin paperBin = new Bin(new Vector3(getWorldX()/ 5,getWorldY() / 4, 1), Bin.TYPE.PAPER);
-        Bin plasticBin = new Bin(new Vector3(2 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.PLASTIC);
-        Bin glassBin = new Bin(new Vector3(3 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.GLASS);
-        Bin metalBin = new Bin(new Vector3(4 * getWorldX() / 5,getWorldY() / 4, 1), Bin.TYPE.METAL);
-
-
         paint = new Paint();
         paint.setColor(Color.MAGENTA);
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTypeface(Typeface.DEFAULT_BOLD);
         paint.setTextSize(55);
 
+        bmp = BitmapFactory.decodeResource(_view.getResources(),R.drawable.game_bg);
+
         pause = new UI_Element(new Vector3(4 * getWorldX() / 4.5f,getWorldY() / 11, 1), UI_Element.TYPE.PAUSE);
+        test =  _view.getContext();
         //UI_Element.Create();
     }
 
@@ -111,11 +118,15 @@ public class SampleGame
                     currBall.Throw(force);
                     currBall.unFreeze();
                     currBall = null;
+                    Vibrator v = (Vibrator)test.getSystemService(Context.VIBRATOR_SERVICE);
+                    // Vibrate for 500 milliseconds
+                    v.vibrate(200);
                 }
             }
             //end of da throw
 
             EntityManager.Instance.Update(_deltaTime);
+            BinController(_deltaTime);
         }
     }
 
@@ -131,10 +142,12 @@ public class SampleGame
         {
             _canvas.drawText("PAUSE",_canvas.getWidth() * 0.5f,_canvas.getHeight() * 0.5f,paint);
         }
+
+        //render the background
+
     }
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
-
 
     public void Exit()
     {
@@ -142,6 +155,35 @@ public class SampleGame
         GameSystem.Instance.SetIntFromSave("Score",score);
         GameSystem.Instance.SaveEditEnd();
     }
+
+    public void BinController(double dt)
+    {
+        binSpawnTimer += dt;
+        if (binSpawnTimer > binSpawnRate)
+        {
+            binSpawnTimer = 0;
+            Random r = new Random();
+            int type = r.nextInt(4 + 1);
+            Bin b;
+            switch (type)
+            {
+                case 1:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3 - 5) + 1) + 5, 1), Bin.TYPE.PAPER);
+                    break;
+                case 2:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3 - 5) + 1) + 5, 1), Bin.TYPE.GLASS);
+                    break;
+                case 3:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3 - 5) + 1) + 5, 1), Bin.TYPE.METAL);
+                    break;
+                case 4:
+                    b = new Bin(new Vector3(0, r.nextInt((int)(worldY/5*3) - 5 + 1) + 5, 1), Bin.TYPE.PLASTIC);
+                    break;
+            }
+            Log.d("spawnned", "spawno");
+        }
+    }
+
    // public void SetIsPause(boolean _isPause)
    // {
      //   isPause = _isPause;
