@@ -12,6 +12,8 @@ import android.widget.Button;
 
 public class GamePage extends Activity
 {
+    public static GamePage instance = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -20,6 +22,8 @@ public class GamePage extends Activity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        //update da instance
+        instance = this;
         setContentView (new GameView(this));
     }
 

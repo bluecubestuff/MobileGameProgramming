@@ -22,6 +22,7 @@ public class Mainmenu extends Activity implements OnClickListener {
     private Button btn_start;
     private Button btn_highscore;
     private Button btn_setting;
+    private Button btn_facebook;
 
     private MediaPlayer mp;
 
@@ -47,6 +48,9 @@ public class Mainmenu extends Activity implements OnClickListener {
         btn_setting = (Button)findViewById(R.id.btn_setting);
         btn_setting.setOnClickListener(this); //set listener to something btn
 
+        btn_facebook = (Button)findViewById(R.id.btn_facebook);
+        btn_facebook.setOnClickListener(this); //set listener to something btn
+
         //AudioPlayer.Instance.PlayAudio(this, "music");
         mp = MediaPlayer.create(this, R.raw.music);
         mp.start();
@@ -61,12 +65,15 @@ public class Mainmenu extends Activity implements OnClickListener {
 
         if(v == btn_start)
         {   //intent is to set to another class which is another page/screen to go to
+            GameSystem.Instance.SetStateName("Default");
             intent.setClass(this,GamePage.class);
             //AudioPlayer.Instance.PlayAudio(this, "press");
         }
         else if(v == btn_highscore)
         {
-            intent.setClass(this,HighscorePage.class);
+            GameSystem.Instance.SetStateName("HighScoreState");
+            intent.setClass(this,GamePage.class);
+            //intent.setClass(this,ScorePage.class);
             //AudioPlayer.Instance.PlayAudio(this, "press");
         }
         else if(v == btn_setting)
@@ -74,7 +81,10 @@ public class Mainmenu extends Activity implements OnClickListener {
             intent.setClass(this,SettingPage.class);
             //AudioPlayer.Instance.PlayAudio(this, "press");
         }
-
+        else if(v == btn_facebook)
+        {
+            intent.setClass(this,ScorePage.class);
+        }
         startActivity(intent);
     }
 

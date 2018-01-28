@@ -86,31 +86,56 @@ public class Bin implements EntityBase, Collidable
            return;
 
         Log.d("BIN_HIT","HIT");
+       // int currScore = GameSystem.Instance.GetIntFromSave("Score");
         switch(_other.GetType())
         {
             case "paper_ball":
                 if(type == TYPE.PAPER)
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() + 1);
+                   // ++currScore;
+                }
                 else
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() - 1);
+                   // --currScore;
+                }
                 break;
             case "plastic_ball":
                 if(type == TYPE.PLASTIC)
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() + 1);
+                   // ++currScore;
+                }
                 else
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() - 1);
+                   // --currScore;
+                }
                 break;
             case "glass_ball":
                 if(type == TYPE.GLASS)
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() + 1);
+                    //++currScore;
+                }
                 else
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() - 1);
+                   // --currScore;
+                }
                 break;
             case "metal_ball":
                 if(type == TYPE.METAL)
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  +1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() + 1);
+                    //++currScore;
+                }
                 else
-                    SampleGame.Instance.SetScore( SampleGame.Instance.GetScore()  -1);
+                {
+                    SampleGame.Instance.SetScore(SampleGame.Instance.GetScore() - 1);
+                   // --currScore;
+                }
                 break;
         }
     }

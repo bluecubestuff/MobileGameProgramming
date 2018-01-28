@@ -3,6 +3,7 @@ package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.SurfaceView;
 
 public class IntroState implements StateBase
@@ -24,6 +25,7 @@ public class IntroState implements StateBase
     @Override
     public void OnExit()
     {
+        Log.d("IsExit","exit");
     }
 
     @Override
@@ -51,3 +53,4 @@ public class IntroState implements StateBase
         }
     }
 }
+

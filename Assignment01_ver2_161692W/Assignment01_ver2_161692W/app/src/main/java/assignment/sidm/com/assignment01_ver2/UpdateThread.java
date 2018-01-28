@@ -17,7 +17,6 @@ public class UpdateThread extends Thread
     {
         view = _view;
         holder = view.getHolder();
-
     }
 
     public boolean IsRunning()
@@ -50,7 +49,8 @@ public class UpdateThread extends Thread
         // This is to calculate delta time (more precise)
         long prevTime = System.nanoTime();
 
-        StateManager.Instance.Start("Default");
+       //StateManager.Instance.Start("HighScoreState");
+       StateManager.Instance.Start(GameSystem.Instance.GetStateName());
 
         // This is the game loop
         while (isRunning && StateManager.Instance.GetCurrentState() != "INVALID")
@@ -94,5 +94,6 @@ public class UpdateThread extends Thread
             // End of Loop
         }
     }
+
 }
 

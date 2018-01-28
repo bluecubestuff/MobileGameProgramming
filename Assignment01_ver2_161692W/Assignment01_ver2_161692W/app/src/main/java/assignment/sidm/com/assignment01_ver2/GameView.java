@@ -19,19 +19,18 @@ public class GameView extends SurfaceView
 
         if(holder != null)
         {
-            holder.addCallback(new SurfaceHolder.Callback() {
+            holder.addCallback(new SurfaceHolder.Callback()
+            {
                 @Override
-                public void surfaceCreated(SurfaceHolder holder) {
+                public void surfaceCreated(SurfaceHolder holder)
+                {
                     //setup
-
                     if(!updateThread.IsRunning())
                         updateThread.Initialise();
 
                     if(!updateThread.isAlive())
                         updateThread.start();
                         //updateThread.run();
-
-
                 }
 
                 @Override
@@ -43,6 +42,7 @@ public class GameView extends SurfaceView
                 public void surfaceDestroyed(SurfaceHolder holder) {
                     updateThread.Terminate();
                 }
+
             });
         }
     }

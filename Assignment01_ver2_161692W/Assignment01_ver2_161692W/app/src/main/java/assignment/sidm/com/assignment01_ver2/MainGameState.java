@@ -25,7 +25,7 @@ public class MainGameState implements StateBase
 
     @Override
     public void OnExit() {
-
+        SampleGame.Instance.Exit();
     }
 
     @Override

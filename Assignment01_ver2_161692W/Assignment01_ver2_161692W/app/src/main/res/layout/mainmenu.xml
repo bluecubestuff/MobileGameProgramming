@@ -57,4 +57,21 @@
         tools:layout_editor_absoluteX="142dp"
         tools:layout_editor_absoluteY="227dp" />
 
+    <Button
+        android:id="@+id/btn_facebook"
+        android:layout_width="50dp"
+        android:layout_height="53dp"
+
+        android:layout_alignBaseline="@+id/btn_setting"
+        android:layout_alignBottom="@+id/btn_setting"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginStart="14dp"
+        android:background="@drawable/com_facebook_button_icon_blue"
+        android:textColor="#EDEFCF"
+        android:textSize="24dp"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="227dp" />
+
 </RelativeLayout>

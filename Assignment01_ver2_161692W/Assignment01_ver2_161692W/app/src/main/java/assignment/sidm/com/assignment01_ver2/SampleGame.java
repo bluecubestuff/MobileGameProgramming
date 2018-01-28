@@ -72,6 +72,14 @@ public class SampleGame
     {
         if(pause.getIsPause() == true)
         {
+            String scoreID;
+            scoreID = "Score" + GameSystem.Instance.GetIntFromSave("ID");
+            GameSystem.Instance.SaveEditBegin();
+            GameSystem.Instance.SetIntFromSave(scoreID,score);
+            GameSystem.Instance.SaveEditEnd();
+
+            //StateManager.Instance.ChangeState("Default");
+
             if(TouchManager.Instance.isDown())
                 pause.setIsPause(false);
         }
@@ -116,6 +124,7 @@ public class SampleGame
         EntityManager.Instance.Render(_canvas);
 
         String str_score = String.valueOf(score);
+        //String str_score = String.valueOf(GameSystem.Instance.GetIntFromSave("Score"));
         _canvas.drawText(str_score,_canvas.getWidth() * 0.5f,_canvas.getHeight(),paint);
 
         if(pause.getIsPause() == true)
@@ -126,6 +135,13 @@ public class SampleGame
     public float getWorldX(){return worldX;}
     public float getWorldY(){return worldY;}
 
+
+    public void Exit()
+    {
+        GameSystem.Instance.SaveEditBegin();
+        GameSystem.Instance.SetIntFromSave("Score",score);
+        GameSystem.Instance.SaveEditEnd();
+    }
    // public void SetIsPause(boolean _isPause)
    // {
      //   isPause = _isPause;
