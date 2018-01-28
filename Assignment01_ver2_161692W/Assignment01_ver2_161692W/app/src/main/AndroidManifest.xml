@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <meta-data android:name = "com.facebook.sdk.ApplicationId"
-        android:value = ""/>
+        android:value = "1838277156195868"/>
 
     <application
         android:allowBackup="true"

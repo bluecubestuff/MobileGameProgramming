@@ -7,11 +7,14 @@ import android.graphics.Typeface;
 import android.util.Log;
 import android.view.SurfaceView;
 
+import java.util.LinkedList;
+
 public class HighScoreState implements StateBase
 {
     private int numUser = 0;
     private Paint paint;
     private String userID;
+    private LinkedList<Integer> ScoreList;
     @Override
     public String GetName() {
         return "HighScoreState";
@@ -19,7 +22,7 @@ public class HighScoreState implements StateBase
 
     @Override
     public void OnEnter(SurfaceView _view) {
-        numUser = GameSystem.Instance.GetIntFromSave("ID");
+        //numUser = GameSystem.Instance.GetIntFromSave("ID");
 
         paint = new Paint();
         paint.setColor(Color.MAGENTA);
@@ -28,6 +31,13 @@ public class HighScoreState implements StateBase
         paint.setTextSize(55);
 
         userID = "Score";
+        /*
+        ScoreList = new LinkedList<Integer>();
+        for (int score : ScoreList)
+        {
+
+        }
+        */
     }
 
     @Override
@@ -43,12 +53,12 @@ public class HighScoreState implements StateBase
         {
             userID += i;
             String str_score = "Player " + i + ": " + String.valueOf(GameSystem.Instance.GetIntFromSave(userID));
-            _canvas.drawText(str_score,_canvas.getWidth() * 0.2f,_canvas.getHeight() * i / 11,paint);
+            _canvas.drawText(str_score,_canvas.getWidth() * 0.2f,_canvas.getHeight() * i / 10,paint);
             //Log.d("score----->", userID);
             userID = "Score";
         }
 
-        //_canvas.drawText("HIGHSCORE",_canvas.getWidth() * 0.5f,_canvas.getHeight()* 1 / 10,paint);
+        _canvas.drawText("HIGHSCORE",_canvas.getWidth() * 0.5f,_canvas.getHeight()* 1 / 18,paint);
 
     }
 
