@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceView;
 
@@ -42,7 +43,12 @@ public class SampleBackground implements EntityBase
 
     @Override
     public void Render(Canvas _canvas) {
-        _canvas.drawBitmap(bmp, 0,0,null);
+        Matrix ms = new Matrix();
+        ms.postScale(1.f/bmp.getWidth(), 1.f/bmp.getHeight());
+        ms.postScale(SampleGame.screenX, SampleGame.screenY);
+        _canvas.drawBitmap(bmp, ms, null);
+
+        //_canvas.drawBitmap(bmp, 0,0,null);
     }
 
     public static SampleBackground Create()
