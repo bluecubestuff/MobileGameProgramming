@@ -128,5 +128,10 @@ public class EntityManager
             collisionList.add(_newEntity);
     }
 
+    public void RemoveAllEntity()
+    {
+        enetityList.clear();
+    }
+
 }
 

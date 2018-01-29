@@ -3,6 +3,7 @@ package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 //game loop here
@@ -51,6 +52,7 @@ public class UpdateThread extends Thread
 
        //StateManager.Instance.Start("HighScoreState");
        StateManager.Instance.Start(GameSystem.Instance.GetStateName());
+        Log.d("Scene", GameSystem.Instance.GetStateName());
 
         // This is the game loop
         while (isRunning && StateManager.Instance.GetCurrentState() != "INVALID")

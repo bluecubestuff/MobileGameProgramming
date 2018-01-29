@@ -44,8 +44,10 @@ public class GamePage extends Activity
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        SampleGame.Instance.Exit();
+                       EntityManager.Instance.RemoveAllEntity();
                         finish();
-                       // System.exit(0);
+                       //System.exit(0);
                     }
                 }).setNegativeButton("No", null).show();
     }
