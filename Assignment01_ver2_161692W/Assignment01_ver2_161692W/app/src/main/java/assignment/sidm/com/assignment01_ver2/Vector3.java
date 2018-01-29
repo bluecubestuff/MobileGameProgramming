@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+//Vector3 class for 3 dimensional lines. contains functions for vector3
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;

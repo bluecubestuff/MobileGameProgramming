@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+//Splash screen of game, sleeps for a few moment before starting first activity
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;

@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+//Ball entity for the game. there are 4 types of balls to match the bins
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;

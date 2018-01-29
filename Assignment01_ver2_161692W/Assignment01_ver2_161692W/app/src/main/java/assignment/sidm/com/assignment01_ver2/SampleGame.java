@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+//class for game. throwing of balls and spawning of bin occurs here
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;
