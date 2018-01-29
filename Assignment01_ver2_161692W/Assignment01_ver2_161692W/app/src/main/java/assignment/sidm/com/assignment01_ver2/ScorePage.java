@@ -105,10 +105,11 @@ public class ScorePage extends Activity implements OnClickListener
         loginManager.logInWithPublishPermissions(this, PERMISSIONS);
 
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
                 profile_pic.setProfileId(Profile.getCurrentProfile().getId());
-                shareScore();
+                //shareScore();
             }
             @Override
             public void onCancel() {
