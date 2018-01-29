@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+// Manages the touch input for game & what kind of touch is being used
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;

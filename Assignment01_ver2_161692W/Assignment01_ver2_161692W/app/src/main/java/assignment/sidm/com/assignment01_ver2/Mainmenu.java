@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+// Shows the main menu and determines which activity to start next
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;

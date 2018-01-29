@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+// Used to store anything related to system of the game etc(SharePref,adding of states)
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;

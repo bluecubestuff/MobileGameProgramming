@@ -2,7 +2,7 @@
 //Author: Devin Tan & Samuel Wong
 //Time: 29/1/2018
 //===============================Description=========================================
-//
+// UI entity class for ui
 //===================================================================================
 
 package assignment.sidm.com.assignment01_ver2;
