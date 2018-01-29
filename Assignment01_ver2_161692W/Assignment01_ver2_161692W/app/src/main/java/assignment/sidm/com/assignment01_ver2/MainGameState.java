@@ -1,3 +1,10 @@
+//===================================================================================
+//Author: Devin Tan & Samuel Wong
+//Time: 29/1/2018
+//===============================Description=========================================
+//
+//===================================================================================
+
 package assignment.sidm.com.assignment01_ver2;
 import android.graphics.Canvas;
 import android.graphics.Color;
