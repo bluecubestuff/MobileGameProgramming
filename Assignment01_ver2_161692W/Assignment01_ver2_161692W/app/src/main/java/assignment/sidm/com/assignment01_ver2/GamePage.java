@@ -46,6 +46,7 @@ public class GamePage extends Activity
                     public void onClick(DialogInterface dialog, int which) {
                         SampleGame.Instance.Exit();
                        EntityManager.Instance.RemoveAllEntity();
+                        StateManager.Instance.Reset();
                         finish();
                        //System.exit(0);
                     }

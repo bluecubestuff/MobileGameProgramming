@@ -64,6 +64,9 @@ public class StateManager
 
     void Render(Canvas _canvas)
     {
+        if (currState == null)
+            return;
+
         currState.Render(_canvas);
     }
 
@@ -87,6 +90,12 @@ public class StateManager
             currState.OnEnter(view);
             nextState = currState;
         }
+    }
+
+    void Reset()
+    {
+        currState = null;
+        nextState = null;
     }
 }
 
