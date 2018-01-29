@@ -7,9 +7,6 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
-    <meta-data android:name = "com.facebook.sdk.ApplicationId"
-        android:value = "1838277156195868"/>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data android:name = "com.facebook.sdk.ApplicationId"
+            android:value = "1838277156195868"/>
 
         <activity android:name=".SplashPage">
             <intent-filter>

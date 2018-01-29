@@ -9,6 +9,7 @@ public class GameSystem
     public final static String SHARED_PREF_ID = "GameSaveFile";
     public String userKey;
     public String StateName;
+    public int scoreToShare;
     // Game stuff
 
     private boolean isPaused = false;
@@ -19,6 +20,7 @@ public class GameSystem
     // Singleton Pattern : Blocks others from creating
     private GameSystem()
     {
+        scoreToShare = 0;
     }
 
     public void Update(float _deltaTime)
@@ -68,7 +70,10 @@ public class GameSystem
 
     public int GetIntFromSave(String _key)
     {
-        return sharedPref.getInt(_key,0);
+        if(sharedPref != null)
+         return sharedPref.getInt(_key,0);
+        else
+            return 0;
     }
 
     public void SaveEditBegin()

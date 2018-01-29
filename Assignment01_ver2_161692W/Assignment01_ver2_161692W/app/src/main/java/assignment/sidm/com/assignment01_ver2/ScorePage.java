@@ -20,6 +20,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -45,7 +46,7 @@ public class ScorePage extends Activity implements OnClickListener
     private LoginManager loginManager;
 
     ProfilePictureView profile_pic;
-
+    private ProfileTracker mProfileTracker;
     List<String> PERMISSIONS = Arrays.asList("publish_actions");
 
     @Override
@@ -62,7 +63,8 @@ public class ScorePage extends Activity implements OnClickListener
 
         setContentView(R.layout.highscorepage);
 
-        m_iHighscore =  GameSystem.Instance.GetIntFromSave("Score");
+        //m_iHighscore = 10;
+        //GameSystem.Instance.sharedPref = GamePage.instance.getSharedPreferences(GameSystem.Instance.SHARED_PREF_ID,0);
 
         // Define for back button
         btn_back = (Button) findViewById(R.id.btn_back);
@@ -103,10 +105,11 @@ public class ScorePage extends Activity implements OnClickListener
         loginManager.logInWithPublishPermissions(this, PERMISSIONS);
 
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
                 profile_pic.setProfileId(Profile.getCurrentProfile().getId());
-                shareScore();
+                //shareScore();
             }
             @Override
             public void onCancel() {
@@ -132,6 +135,8 @@ public class ScorePage extends Activity implements OnClickListener
             startActivity(intent);
         }
         else if(v == btn_sharescore ) {
+
+            m_iHighscore = GameSystem.Instance.scoreToShare;
 
             AlertDialog.Builder alert_builder = new AlertDialog.Builder(ScorePage.this);
 
@@ -166,7 +171,7 @@ public class ScorePage extends Activity implements OnClickListener
 
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(image)
-                .setCaption("Thank you for playing MGP2017. Your final score is " + m_iHighscore)
+                .setCaption("Thank you for playing. Your final score is " + m_iHighscore)
                 .build();
 
         SharePhotoContent content = new SharePhotoContent.Builder()

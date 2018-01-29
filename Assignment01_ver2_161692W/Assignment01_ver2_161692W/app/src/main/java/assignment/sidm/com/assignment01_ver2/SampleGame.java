@@ -81,6 +81,7 @@ public class SampleGame
         {
             String scoreID;
             scoreID = "Score" + GameSystem.Instance.GetIntFromSave("ID");
+            GameSystem.Instance.scoreToShare = score;
             GameSystem.Instance.SaveEditBegin();
             GameSystem.Instance.SetIntFromSave(scoreID,score);
             GameSystem.Instance.SaveEditEnd();
@@ -152,7 +153,8 @@ public class SampleGame
     public void Exit()
     {
         GameSystem.Instance.SaveEditBegin();
-        GameSystem.Instance.SetIntFromSave("Score",score);
+        GameSystem.Instance.scoreToShare = score;
+        GameSystem.Instance.SetIntFromSave("Score" + GameSystem.Instance.GetIntFromSave("ID"),score);
         GameSystem.Instance.SaveEditEnd();
     }
 
